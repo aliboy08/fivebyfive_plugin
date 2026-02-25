@@ -12,7 +12,9 @@ add_filter('ff/sub_menus', function($sub_menus){
             ]);
 
             echo '<div id="ff_modules_manager"><div class="spinner"></div></div>';
-            
+
+            echo '<button class="button-primary" id="modules_refresh">Refresh</button>';
+
             wp_enqueue_style('icomoon', get_stylesheet_directory_uri().'/assets/icomoon/style.css');
             ff_plugin_load_asset('manager');
         }

@@ -3,24 +3,9 @@ $repo_data = include 'get_repo_data.php';
 
 $site_modules = get_option('ff_modules_manager');
 
-$exclude = [
-    'ff-vaultre',
-    'data-migration',
-    'ff-db',
-    'lead-tracker',
-    'retina',
-    'data-push',
-    'ff-ajax',
-    'ff-au-post-integration',
-    'ff-quiz',
-];
-
 $modules = [];
 foreach( $repo_data as $module ) {
-
-    if( !$module['download_url'] ) continue;
-    if( in_array( $module['slug'], $exclude) ) continue;
-
+    
     $module['active'] = false;
     $module['installed'] = false;
     $module['outdated'] = false;
@@ -31,6 +16,7 @@ foreach( $repo_data as $module ) {
                 $module['installed'] = true;
                 $module['active'] = $site_module['active'];
                 $module['outdated'] = $module['version'] != $site_module['version'];
+                $module['old_version'] = $site_module['version'];
                 break;
             }
         }

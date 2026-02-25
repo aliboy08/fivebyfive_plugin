@@ -10,14 +10,14 @@ class FF_Modules_Manager_API {
 
         $this->create_dirs();
         
-        $download_success = $this->download($module['download_url']);
+        $download_success = $this->download($module['file_url']);
 
         if( !$download_success ) {
             $res['message'] = 'file download/extract failed';
             return $res;
         }
 
-        $res['check'] = $this->check_module($module);
+        // $res['check'] = $this->check_module($module);
 
         $this->item_add($module);
 
@@ -30,7 +30,7 @@ class FF_Modules_Manager_API {
         
         $this->item_remove($module);
 
-        $dir_path = FF_MODULES_DIR.pathinfo($module['download_url'])['filename'];
+        $dir_path = FF_MODULES_DIR.pathinfo($module['file_url'])['filename'];
 
         $this->remove_directory($dir_path);
         
@@ -69,6 +69,29 @@ class FF_Modules_Manager_API {
             'success' => true,
             'message' => 'module deactivated',
         ];
+    }
+
+    function update($module){
+
+        $res = [
+            'success' => false,
+            'message' => '',
+        ];
+        
+        $download_success = $this->download($module['file_url']);
+
+        if( !$download_success ) {
+            $res['message'] = 'file download/extract failed';
+            return $res;
+        }
+
+        $this->item_update($module['slug'], 'version', $module['version']);
+
+        // $res['check'] = $this->check_module($module);
+
+        $res['message'] = 'module updated';
+        
+        return $res;
     }
 
     function create_dirs(){

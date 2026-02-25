@@ -10,6 +10,8 @@ ff_plugin_ajax(
 	render_modules,
 );
 
+init_refresh();
+
 function render_modules(modules) {
 	const container = document.querySelector('#ff_modules_manager');
 
@@ -30,4 +32,29 @@ function render_modules(modules) {
 			container.prepend(el);
 		}
 	});
+}
+
+function init_refresh() {
+	const btn = document.querySelector('#modules_refresh');
+	if (!btn) return;
+
+	let spinner;
+
+	btn.onclick = () => {
+		if (spinner) return;
+		spinner = create_div('spinner show');
+		btn.after(spinner);
+
+		ff_plugin_ajax(
+			'ff_plugin_manager_action',
+			{ action: 'get_modules', refresh: true },
+			(modules) => {
+				console.log('refresh', modules);
+
+				render_modules(modules);
+				btn.remove();
+				spinner.remove();
+			},
+		);
+	};
 }

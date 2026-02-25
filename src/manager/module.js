@@ -19,15 +19,20 @@ class Module {
 	init_html() {
 		create_div('name', this.el, this.data.name);
 
-		const version_con = create_div('version', this.el);
-		this.version_el = create_div('num', version_con, this.data.version);
+		this.init_version();
 
 		this.actions_con = create_div('actions', this.el);
 	}
 
-	update_version(version) {
-		if (!this.outdated) return;
-		this.version_el.textContent = version;
+	init_version() {
+		const version_con = create_div('version', this.el);
+
+		if (this.outdated) {
+			create_div('num old', version_con, this.data.old_version);
+			create_div('num new', version_con, ' < ' + this.data.version);
+		} else {
+			create_div('num', version_con, this.data.version);
+		}
 	}
 
 	async do_action(type) {
@@ -87,6 +92,7 @@ function init(item_args) {
 	init_activate(item);
 	init_uninstall(item);
 	init_install(item);
+	init_update(item);
 
 	item.update();
 }
@@ -102,10 +108,7 @@ function init_deactivate(item) {
 		btn.style.display = show() ? '' : 'none';
 	});
 
-	btn.addEventListener('click', async () => {
-		await do_action('deactivate', item, btn);
-		window.location.reload();
-	});
+	btn.addEventListener('click', () => do_action('deactivate', item, btn, true));
 }
 
 function init_activate(item) {
@@ -119,10 +122,7 @@ function init_activate(item) {
 		btn.style.display = show() ? '' : 'none';
 	});
 
-	btn.addEventListener('click', async () => {
-		await do_action('activate', item, btn);
-		window.location.reload();
-	});
+	btn.addEventListener('click', () => do_action('activate', item, btn, true));
 }
 
 function init_uninstall(item) {
@@ -153,8 +153,28 @@ function init_install(item) {
 	btn.addEventListener('click', () => do_action('install', item, btn));
 }
 
-async function do_action(type, item, btn) {
+function init_update(item) {
+	const btn = create_div('btn update', item.actions_con, 'Update');
+
+	const show = () => {
+		return item.outdated;
+	};
+
+	item.hooks.on('update', () => {
+		btn.style.display = show() ? '' : 'none';
+	});
+
+	btn.addEventListener('click', () => do_action('update', item, btn, true));
+}
+
+async function do_action(type, item, btn, reload = false) {
 	btn.classList.add('loading');
+
 	await item.do_action(type);
+
+	if (reload) {
+		window.location.reload();
+	}
+
 	btn.classList.remove('loading');
 }

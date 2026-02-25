@@ -47,7 +47,7 @@ function load_css($key, $asset){
     $i = 0;
     foreach( $asset->css as $src ) { $i++;
         $css_handle = "{$key}-css-{$i}";
-        $css_src = "{$dist_url}/dist/{$src}";
+        $css_src = "{$dist_url}/{$src}";
         wp_enqueue_style($css_handle, $css_src);
     }
 }

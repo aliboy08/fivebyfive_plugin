@@ -14,11 +14,16 @@
 	display: flex;
 	flex-wrap: wrap;
 	gap: 1.2em;
+}
 
-	.spinner {
-		float: none;
-		visibility: visible;
-	}
+#ff_modules_manager .spinner,
+.spinner.show {
+	float: none;
+	visibility: visible;
+}
+
+#modules_refresh {
+	margin-left: 20px;
 }
 
 #ff_modules_manager .module {
@@ -39,15 +44,20 @@
 
 	.version {
 		display: flex;
-		gap: 15px;
+		gap: 10px;
 		align-items: center;
-
-		&.outdated {
-			color: #fd7885;
-		}
 
 		.num {
 			font-weight: 600;
+
+			&.old {
+				color: #fd7885;
+			}
+
+			&.new {
+				color: rgb(45 209 149);
+				// font-weight: 700;
+			}
 		}
 	}
 
@@ -86,6 +96,10 @@
 
 			&.install::before {
 				@include icon('\e92e', 14px);
+			}
+
+			&.update::before {
+				@include icon('\e914', 14px);
 			}
 
 			&.loading {

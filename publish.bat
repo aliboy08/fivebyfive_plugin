@@ -8,17 +8,17 @@ for %%A in ("%source_path%") do set "plugin_name=%%~nxA"
 
 set "zip_file=%plugin_name%.zip"
 
-set "exclude=node_modules;.git;v4wp;zip.ps1;publish.bat;.gitignore;jsconfig.json;package.json;package-lock.json;wp-manifest.cjs;vite.config.js;%zip_file%"
+set "exclude=node_modules;dev;.git;v4wp;zip.ps1;publish.bat;publish_module.bat;.gitignore;jsconfig.json;package.json;package-lock.json;wp-manifest.cjs;vite.config.js;%zip_file%"
 
 echo Creating zip file...
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0zip.ps1" -source_path "%source_path%" -plugin_name "%plugin_name%" -exclude "%exclude%"
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0zip.ps1" -source_path "%source_path%" -file_name "%plugin_name%" -exclude "%exclude%"
 
 set "install_name=devlibrary2021"
-set "remote_path=/sites/%install_name%/ff-modules/"
+set "remote_path=/sites/%install_name%/fivebyfive/"
 set "ssh_host=%install_name%@%install_name%.ssh.wpengine.net"
 
 echo Uploading to remote(%install_name%)...
 
-scp %zip_file% %ssh_host%:%remote_path%
+scp -O "%zip_file%" %ssh_host%:%remote_path%
 
 endlocal
