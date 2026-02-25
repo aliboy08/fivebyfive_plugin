@@ -1,0 +1,129 @@
+@use 'css/mixins' as *;
+
+@keyframes spin {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+#ff_modules_manager {
+	padding: 50px 20px;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1.2em;
+
+	.spinner {
+		float: none;
+		visibility: visible;
+	}
+}
+
+#ff_modules_manager .module {
+	background: #fff;
+	border-radius: 4px;
+	padding: 12px 12px 10px;
+	width: 220px;
+	border: 2px solid #fff;
+	color: #a5a5a5;
+	user-select: none;
+	transition: border-color 0.1s ease;
+
+	.name {
+		font-size: 1.1em;
+		font-weight: 600;
+		margin-bottom: 0.4rem;
+	}
+
+	.version {
+		display: flex;
+		gap: 15px;
+		align-items: center;
+
+		&.outdated {
+			color: #fd7885;
+		}
+
+		.num {
+			font-weight: 600;
+		}
+	}
+
+	.actions {
+		display: flex;
+		gap: 7px 10px;
+		margin-top: 12px;
+		flex-wrap: wrap;
+
+		.btn {
+			cursor: pointer;
+			font-weight: 600;
+			gap: 4px;
+			background: #fafafa;
+			padding: 2px 8px;
+			border-radius: 3px;
+			border: 1px solid #ebebeb;
+			transition: border-color 0.1s ease;
+			@include center;
+
+			&:hover {
+				border-color: #b8b8b8;
+			}
+
+			&.deactivate::before {
+				@include icon('\e917', 12px);
+			}
+
+			&.activate::before {
+				@include icon('\e910', 14px);
+			}
+
+			&.uninstall::before {
+				@include icon('\e929', 14px);
+			}
+
+			&.install::before {
+				@include icon('\e92e', 14px);
+			}
+
+			&.loading {
+				pointer-events: none;
+				opacity: 0.5;
+				&::before {
+					content: '\e903';
+					font-size: 12px;
+					animation: spin 1s linear infinite;
+				}
+			}
+		}
+	}
+}
+
+#ff_modules_manager .module {
+	position: relative;
+	overflow: hidden;
+
+	&[data-installed='true'] {
+		border-color: #cbcbcb;
+		&::after {
+			content: '';
+			position: absolute;
+			top: -13px;
+			right: -13px;
+			width: 26px;
+			height: 26px;
+			background: #cbcbcb;
+			transform: rotate(45deg);
+			pointer-events: none;
+		}
+	}
+
+	&[data-active='true'] {
+		border-color: rgb(81 237 179 / 69%);
+		&::after {
+			background-color: rgb(81 237 179 / 69%);
+		}
+	}
+}

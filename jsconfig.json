@@ -1,0 +1,10 @@
+{
+	"compilerOptions": {
+		"paths": {
+			"js/*": ["./src/js/*"],
+			"css/*": ["./src/css/*"],
+			"src/*": ["./src/*"]
+		}
+	},
+	"exclude": ["dist"]
+}

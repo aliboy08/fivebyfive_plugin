@@ -1,0 +1,100 @@
+@mixin icon($content, $font_size: inherit) {
+	content: $content;
+	font-family: 'icomoon';
+	font-size: $font_size;
+	font-weight: 400;
+}
+
+@mixin icon_left($content, $font_size: inherit, $left: 0) {
+	content: $content;
+	font-family: 'icomoon';
+	font-size: $font_size;
+	font-weight: 400;
+	position: absolute;
+	left: $left;
+}
+
+@mixin icon_right($content, $font_size: inherit, $right: 0) {
+	content: $content;
+	font-family: 'icomoon';
+	font-size: $font_size;
+	font-weight: 400;
+	position: absolute;
+	right: $right;
+}
+
+@mixin absolute_center($top: 50px) {
+	position: absolute;
+	left: 50%;
+	top: $top;
+	translate: -50%;
+}
+
+@mixin loading_icon($top: 20px, $left: 50%, $font_size: 20px) {
+	content: '\e903';
+	font-family: 'icomoon';
+	font-size: $font_size;
+	font-weight: 400;
+	translate: -50%;
+	line-height: 1;
+	position: absolute;
+	pointer-events: none;
+	top: $top;
+	left: $left;
+	animation: spin 1.5s linear infinite;
+	z-index: 2;
+	background: #fff;
+	border-radius: 50%;
+	padding: 8px;
+}
+
+@mixin limit_lines($lines: 2) {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: $lines;
+	overflow: hidden;
+}
+
+@mixin center($display: flex) {
+	display: $display;
+	justify-content: center;
+	align-items: center;
+}
+
+@mixin image_fit {
+	position: relative;
+	overflow: hidden;
+	img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		object-position: center;
+	}
+}
+
+@mixin flex_column_center {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+@mixin overlay($background: rgba(0, 0, 0, 0.4)) {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	pointer-events: none;
+	background: $background;
+}
+
+@mixin fit_cover {
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	left: 0;
+	top: 0;
+	object-fit: cover;
+	object-position: center;
+}

@@ -1,0 +1,8 @@
+node_modules
+gitignore
+dist
+dist_temp
+dist.zip
+dist_temp.zip
+**/.DS_Store
+**.log
