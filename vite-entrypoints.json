@@ -1,3 +1,5 @@
 {
-    "manager": "src/manager/manager.js"
+    "modules_manager": "src/modules/modules.js",
+    "elementor_widgets_manager": "src/elementor_widgets/elementor_widgets.js",
+    "admin_styles": "src/admin_styles/admin_styles.js"
 }

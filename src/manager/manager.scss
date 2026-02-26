@@ -1,35 +1,20 @@
 @use 'css/mixins' as *;
 
-@keyframes spin {
-	from {
-		transform: rotate(0deg);
-	}
-	to {
-		transform: rotate(360deg);
-	}
-}
-
-#ff_modules_manager {
-	padding: 50px 20px;
+.ff_plugin_manager_items {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 1.2em;
+	margin: 20px 0;
+	align-items: flex-start;
+
+	.item {
+		background: #fff;
+		border-radius: 4px;
+		padding: 12px 12px 10px;
+	}
 }
 
-#ff_modules_manager .spinner,
-.spinner.show {
-	float: none;
-	visibility: visible;
-}
-
-#modules_refresh {
-	margin-left: 20px;
-}
-
-#ff_modules_manager .module {
-	background: #fff;
-	border-radius: 4px;
-	padding: 12px 12px 10px;
+.ff_plugin_manager_items .item {
 	width: 220px;
 	border: 2px solid #fff;
 	color: #a5a5a5;
@@ -48,15 +33,13 @@
 		align-items: center;
 
 		.num {
-			font-weight: 600;
-
 			&.old {
 				color: #fd7885;
 			}
 
 			&.new {
 				color: rgb(45 209 149);
-				// font-weight: 700;
+				font-weight: 600;
 			}
 		}
 	}
@@ -115,7 +98,7 @@
 	}
 }
 
-#ff_modules_manager .module {
+.ff_plugin_manager_items .item {
 	position: relative;
 	overflow: hidden;
 

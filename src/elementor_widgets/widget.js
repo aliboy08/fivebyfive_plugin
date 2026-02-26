@@ -1,8 +1,9 @@
 import { global_hooks } from 'src/globals';
-import { create_div, ff_plugin_ajax } from 'js/utils';
+import { ff_plugin_ajax } from 'js/utils';
+import { dom } from 'js/dom';
 import Hooks from 'js/hooks';
 
-class Module {
+class Widget {
 	constructor(args) {
 		this.hooks = new Hooks();
 
@@ -10,29 +11,14 @@ class Module {
 		this.data = args.data;
 		this.installed = args.data.installed ?? false;
 		this.active = args.data.active ?? false;
-		this.outdated = args.data.outdated ?? false;
 		this.loading = false;
 
 		this.init_html();
 	}
 
 	init_html() {
-		create_div('name', this.el, this.data.name);
-
-		this.init_version();
-
-		this.actions_con = create_div('actions', this.el);
-	}
-
-	init_version() {
-		const version_con = create_div('version', this.el);
-
-		if (this.outdated) {
-			create_div('num old', version_con, this.data.old_version);
-			create_div('num new', version_con, ' < ' + this.data.version);
-		} else {
-			create_div('num', version_con, this.data.version);
-		}
+		dom.create('name', this.el, this.data.name);
+		this.actions_con = dom.create('actions', this.el);
 	}
 
 	async do_action(type) {
@@ -42,7 +28,7 @@ class Module {
 		return new Promise((resolve) => {
 			ff_plugin_ajax(
 				'ff_plugin_manager_action',
-				{ action: type, module: this.data },
+				{ action: type, item: this.data },
 				(res) => {
 					this.action_response(resolve, res, type);
 				},
@@ -83,22 +69,21 @@ class Module {
 	}
 }
 
-global_hooks.on('ff/module/init', init);
+global_hooks.on('ff_plugin/widget/init', init);
 function init(item_args) {
-	const item = new Module(item_args);
-	item_args.el.module = item;
+	const item = new Widget(item_args);
+	item_args.el.widget = item;
 
 	init_deactivate(item);
 	init_activate(item);
 	init_uninstall(item);
 	init_install(item);
-	init_update(item);
 
 	item.update();
 }
 
 function init_deactivate(item) {
-	const btn = create_div('btn deactivate', item.actions_con, 'Deactivate');
+	const btn = dom.create('btn deactivate', item.actions_con, 'Deactivate');
 
 	const show = () => {
 		return item.active && item.installed;
@@ -112,7 +97,7 @@ function init_deactivate(item) {
 }
 
 function init_activate(item) {
-	const btn = create_div('btn activate', item.actions_con, 'Activate');
+	const btn = dom.create('btn activate', item.actions_con, 'Activate');
 
 	const show = () => {
 		return !item.active && item.installed;
@@ -126,7 +111,7 @@ function init_activate(item) {
 }
 
 function init_uninstall(item) {
-	const btn = create_div('btn uninstall', item.actions_con, 'Uninstall');
+	const btn = dom.create('btn uninstall', item.actions_con, 'Uninstall');
 
 	const show = () => {
 		return item.installed && !item.active;
@@ -140,7 +125,7 @@ function init_uninstall(item) {
 }
 
 function init_install(item) {
-	const btn = create_div('btn install', item.actions_con, 'Install');
+	const btn = dom.create('btn install', item.actions_con, 'Install');
 
 	const show = () => {
 		return !item.installed;
@@ -151,20 +136,6 @@ function init_install(item) {
 	});
 
 	btn.addEventListener('click', () => do_action('install', item, btn));
-}
-
-function init_update(item) {
-	const btn = create_div('btn update', item.actions_con, 'Update');
-
-	const show = () => {
-		return item.outdated;
-	};
-
-	item.hooks.on('update', () => {
-		btn.style.display = show() ? '' : 'none';
-	});
-
-	btn.addEventListener('click', () => do_action('update', item, btn, true));
 }
 
 async function do_action(type, item, btn, reload = false) {

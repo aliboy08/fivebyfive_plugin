@@ -6,13 +6,14 @@ $dist_url = plugins_url() .'/fivebyfive/dist';
 $mode = get_mode();
 $manifest = get_manifest();
 $dev_server_origin = get_dev_server_origin();
+$is_admin = is_admin();
 
 function load_asset($key){
 
     global $manifest, $mode, $dist_url;
-
+    
     if( !isset($manifest->$key) ) return;
-
+    
     if( $mode === 'dev' ) {
         load_asset_dev($key);
     } else {
@@ -35,13 +36,14 @@ function load_asset_build($key){
     load_css($key, $asset);
     
     $src = "{$dist_url}/{$asset->file}";
+    
     echo "<script defer type='module' src='{$src}'></script>";
 }
 
 function load_css($key, $asset){
 
-    global $dist_url;
-
+    global $dist_url, $is_admin;
+    
     if( !($asset->css ?? null) ) return;
     
     $i = 0;

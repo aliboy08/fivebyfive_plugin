@@ -1,5 +1,5 @@
 <?php
-$modules = get_option('ff_modules_manager');
+$modules = get_option('ff_plugin/modules');
 if( !$modules ) return;
 
 try {

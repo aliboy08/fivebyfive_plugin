@@ -1,7 +1,8 @@
 <?php
 include 'functions.php';
 include 'vite.php';
-include 'src/manager/manager.php';
+include 'src/modules/modules.php';
+include 'src/elementor_widgets/elementor_widgets.php';
 
 add_action( 'admin_menu', function(){
     
