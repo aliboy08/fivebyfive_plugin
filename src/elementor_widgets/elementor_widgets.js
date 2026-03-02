@@ -25,22 +25,11 @@ init();
 
 function init_item(item) {
 	dom.create('name', item.el, item.data.name);
-	init_version(item);
+	dom.create('slug', item.el, `(${item.data.slug})`);
 
 	item.hooks.on('update', () => {
 		item.el.dataset.installed = item.data.installed;
 		item.el.dataset.active = item.data.active;
 		item.el.dataset.outdated = item.data.outdated;
 	});
-}
-
-function init_version(item) {
-	const con = dom.create('version', item.el);
-
-	if (item.data.outdated) {
-		dom.create('num old', con, item.data.old_version);
-		dom.create('num new', con, ' < ' + item.data.version);
-	} else {
-		dom.create('num', con, item.data.version);
-	}
 }

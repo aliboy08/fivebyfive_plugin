@@ -32,8 +32,9 @@ set "exclude=node_modules;dev;.git;v4wp;zip.ps1;publish.bat;.gitignore;jsconfig.
 echo Creating zip file...
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0zip.ps1" -source_path "%source_path%" -file_name "%slug%" -exclude "%exclude%"
 
+echo.
 echo zip_file_path: %zip_file_path%
-
+echo.
 echo Uploading to remote (%remote_path%)...
 
 scp -O "%zip_file_path%" %ssh_host%:%remote_path%

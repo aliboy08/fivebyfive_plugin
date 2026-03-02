@@ -98,7 +98,7 @@ class FF_Plugin_Modules_API extends FF_Plugin_Base_API {
         ];
     }
 
-    function update($module){
+    function update($payload){
 
         $module = $payload['item'];
         
@@ -111,7 +111,7 @@ class FF_Plugin_Modules_API extends FF_Plugin_Base_API {
         }
 
         $site_module = $this->get_item($module['slug']);
-        $site_module['version'] = $module['site_module'];
+        $site_module['version'] = $module['version'];
 
         $this->item_update($site_module);
         

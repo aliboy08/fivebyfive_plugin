@@ -1,0 +1,27 @@
+.ff_marquee {
+    background: #000;
+    color: #fff;
+    overflow: hidden;
+
+    .items {
+        display: flex;
+    }
+
+    .item {
+        flex-shrink: 0;
+        font-size: 14px;
+        padding: 0 200px;
+        font-weight: 500;
+
+        a {
+            display: flex;
+            gap: 12px;
+        }
+        
+        // .e1 {
+        //     text-transform: uppercase;
+        //     color: #FFD082;
+        // }
+
+    }
+}

@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "node wp-manifest.cjs dev && vite",
-    "build": "vite build && node wp-manifest.cjs build"
+    "build": "vite build && node wp-manifest.cjs build",
+    "build_widget": "vite build && node publish_elementor_widget.cjs %npm_config_ff_widget_slug% && publish_elementor_widget.bat %npm_config_ff_widget_slug%"
   },
   "devDependencies": {
     "sass": "^1.77.8",

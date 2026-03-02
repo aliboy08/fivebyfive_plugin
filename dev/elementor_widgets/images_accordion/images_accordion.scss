@@ -1,0 +1,58 @@
+.ff-images-accordion {
+    display: flex;
+    gap: 10px;
+    
+    .item {
+        position: relative;
+        flex-basis: 120px;
+        cursor: pointer;
+        overflow: hidden;
+        
+        &.current {
+            flex: 1;
+        }
+    }
+
+    .item_inner {
+        background: #eee;
+        height: 100%;
+        min-width: 1000px;
+    }
+
+    .image {
+        height: 100%;
+        img {
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+    }
+
+    .content_con {
+        position: absolute;
+        bottom: 0;
+        background: linear-gradient(0deg, #0000004f, transparent);
+        color: #fff;
+        width: 100%;
+        opacity: 0;
+        pointer-events: none;
+        transition: .4s ease;
+        transform: translateY(20px);
+        padding: 20px 40px 30px;
+    }
+
+    .item.transition_complete .content_con {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(0);
+    }
+
+    .heading {
+        margin: 0 0 5px;
+    }
+
+    .description {
+        margin-bottom: 20px;
+    }
+
+}

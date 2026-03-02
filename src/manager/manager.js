@@ -2,8 +2,6 @@ import { ff_plugin_ajax } from 'js/utils';
 import { dom } from 'js/dom';
 import Hooks from 'js/hooks';
 
-import './manager.scss';
-
 export class Plugin_Manager {
 	constructor(args) {
 		this.hooks = new Hooks();
@@ -46,7 +44,7 @@ export class Plugin_Manager {
 			{ action: 'get_items', refresh: args.refresh ?? false },
 			(items) => {
 				this.update_items(items);
-				if (args.callback) args.callback();
+				if (args.callback) args.callback(items);
 			},
 		);
 	}
@@ -93,8 +91,6 @@ export class Plugin_Manager {
 				this.args.api,
 				{ action: args.type, item: item.data },
 				(res) => {
-					console.log('action:res', res);
-
 					if (args.callback) {
 						args.callback(res);
 					}
@@ -180,7 +176,7 @@ function init_activate(item, main) {
 			add_loading_class: btn,
 			on_ok: () => {
 				item.data.active = true;
-				window.location.reload();
+				// window.location.reload();
 			},
 		});
 	});
@@ -201,7 +197,7 @@ function init_deactivate(item, main) {
 			add_loading_class: btn,
 			on_ok: () => {
 				item.data.active = false;
-				window.location.reload();
+				// window.location.reload();
 			},
 		});
 	});
@@ -222,7 +218,7 @@ function init_update(item, main) {
 			add_loading_class: btn,
 			on_ok: () => {
 				item.data.outdated = false;
-				window.location.reload();
+				// window.location.reload();
 			},
 		});
 	});

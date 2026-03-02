@@ -11,6 +11,15 @@ class FF_Sample extends FF_Widget_Base {
 		return __( 'Sample', 'fivebyfive' );
     }
 
+    protected function render() {
+        echo '<div class="sample_widget">';
+            echo 'SAMPLE WIDGET';
+        echo '</div>';
+
+        ff_elementor_load_asset_dist('sample');
+        // ff_elementor_load_asset('sample');
+    }
+
 }
 
 return new FF_Sample();

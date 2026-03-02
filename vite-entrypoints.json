@@ -1,5 +1,9 @@
 {
     "modules_manager": "src/modules/modules.js",
     "elementor_widgets_manager": "src/elementor_widgets/elementor_widgets.js",
+    "elementor_widget_sample": "dev/elementor_widgets/sample/sample.js",
+    "elementor_widget_images_accordion": "dev/elementor_widgets/images_accordion/init.js",
+    "elementor_widget_before_after_slider": "dev/elementor_widgets/before_after_slider/init.js",
+    "elementor_widget_marquee": "dev/elementor_widgets/marquee/init.js",
     "admin_styles": "src/admin_styles/admin_styles.js"
 }

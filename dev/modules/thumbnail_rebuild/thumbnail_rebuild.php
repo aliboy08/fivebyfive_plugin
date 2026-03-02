@@ -9,7 +9,6 @@ class FF_Thumbnail_Rebuild {
 	function __construct() {
 		add_action( 'ff/admin_menu', [$this, 'admin_menu'] );
 		add_filter( 'attachment_fields_to_edit', [$this, 'attachment_field_edit'], 10, 2 );
-
         add_action( 'wp_ajax_ff_thumbnail_rebuild', [$this, 'ajax_rebuild'] );
 	}
 

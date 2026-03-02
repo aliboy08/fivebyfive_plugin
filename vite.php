@@ -1,20 +1,17 @@
 <?php
 namespace FF\Plugin\Vite;
 
-$dist_dir = __DIR__ .'/dist';
-$dist_url = plugins_url() .'/fivebyfive/dist';
-$mode = get_mode();
-$manifest = get_manifest();
-$dev_server_origin = get_dev_server_origin();
-$is_admin = is_admin();
+define('FF_PLUGIN_VITE_DIST_DIR', __DIR__ .'/dist');
+define('FF_PLUGIN_VITE_DIST_URL', plugins_url() .'/fivebyfive/dist');
+define('FF_PLUGIN_VITE_MODE', get_mode());
+define('FF_PLUGIN_VITE_MANIFEST', get_manifest());
+define('FF_PLUGIN_VITE_DEV_SERVER', get_dev_server_origin());
 
 function load_asset($key){
-
-    global $manifest, $mode, $dist_url;
     
-    if( !isset($manifest->$key) ) return;
+    if( !isset(FF_PLUGIN_VITE_MANIFEST->$key) ) return;
     
-    if( $mode === 'dev' ) {
+    if( FF_PLUGIN_VITE_MODE === 'dev' ) {
         load_asset_dev($key);
     } else {
         load_asset_build($key);
@@ -22,47 +19,40 @@ function load_asset($key){
 }
 
 function load_asset_dev($key){
-    global $manifest, $dev_server_origin;
-    $src = "{$dev_server_origin}/{$manifest->$key}";
+    $src = FF_PLUGIN_VITE_DEV_SERVER."/".FF_PLUGIN_VITE_MANIFEST->$key;
     echo "<script defer type='module' src='{$src}'></script>";
 }
 
 function load_asset_build($key){
 
-    global $manifest, $dist_url;
-
-    $asset = $manifest->$key;
+    $asset = FF_PLUGIN_VITE_MANIFEST->$key;
     
     load_css($key, $asset);
     
-    $src = "{$dist_url}/{$asset->file}";
+    $src = FF_PLUGIN_VITE_DIST_URL."/".$asset->file;
     
     echo "<script defer type='module' src='{$src}'></script>";
 }
 
 function load_css($key, $asset){
 
-    global $dist_url, $is_admin;
-    
     if( !($asset->css ?? null) ) return;
     
     $i = 0;
     foreach( $asset->css as $src ) { $i++;
         $css_handle = "{$key}-css-{$i}";
-        $css_src = "{$dist_url}/{$src}";
+        $css_src = FF_PLUGIN_VITE_DIST_URL ."/". $src;
         wp_enqueue_style($css_handle, $css_src);
     }
 }
 
 function get_mode(){
 
-    global $dist_dir;
-
     if( $_SERVER['REMOTE_ADDR'] !== '127.0.0.1' ) {
         return 'build';
     }
 
-    if( file_exists("{$dist_dir}/mode.dev") ) {
+    if( file_exists(FF_PLUGIN_VITE_DIST_DIR."/mode.dev") ) {
         return 'dev';
     }
 
@@ -71,11 +61,9 @@ function get_mode(){
 
 function get_manifest(){
 
-    global $mode, $dist_dir;
+    $path = FF_PLUGIN_VITE_DIST_DIR."/wp-manifest.json";
 
-    $path = "{$dist_dir}/wp-manifest.json";
-
-    if( $mode === 'dev' ) {
+    if( FF_PLUGIN_VITE_MODE === 'dev' ) {
         $path = __DIR__."/vite-entrypoints.json";
     }
 
@@ -84,9 +72,7 @@ function get_manifest(){
 
 function get_dev_server_origin(){
 
-    global $mode, $dist_dir;
-
-    $file = "{$dist_dir}/vite-dev-server.json";
+    $file = FF_PLUGIN_VITE_DIST_DIR."/vite-dev-server.json";
     if( !file_exists( $file ) ) {
         return 'https://localhost:5420';
     }
