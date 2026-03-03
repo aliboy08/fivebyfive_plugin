@@ -1,0 +1,43 @@
+#cp_result {
+	margin-top: 30px;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	max-width: 1400px;
+
+	.item {
+		background: #fafafa;
+		border-radius: 5px;
+		padding: 10px;
+
+		&[data-state='error'] {
+			background: rgb(255 128 128 / 19%);
+		}
+
+		.title {
+			font-weight: 700;
+		}
+
+		.error {
+			margin: 5px 0;
+		}
+	}
+}
+
+.cp_progress {
+	margin: 10px 0;
+	width: 300px;
+	background: #eee;
+	border: 1px solid #b5b5b5;
+	height: 6px;
+	border-radius: 5px;
+	overflow: hidden;
+	display: flex;
+
+	.fill {
+		transition: width 0.2s linear;
+		height: 100%;
+		width: 0%;
+		background-color: #30e1a6ed;
+	}
+}

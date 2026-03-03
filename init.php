@@ -3,6 +3,7 @@ include 'functions.php';
 include 'vite.php';
 include 'src/modules/modules.php';
 include 'src/elementor_widgets/elementor_widgets.php';
+include 'dev/init.php';
 
 add_action( 'admin_menu', function(){
     

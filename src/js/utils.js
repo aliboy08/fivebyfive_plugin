@@ -1,3 +1,5 @@
+import { dom } from './dom';
+
 export function to_slug(text) {
 	return text.toLowerCase().replaceAll(' ', '-');
 }
@@ -761,4 +763,43 @@ export function dispatch_event(name, args = null) {
 	const e = new Event(name);
 	e.args = args;
 	document.dispatchEvent(e);
+}
+
+export function init_button_loading(button, button_remove = true) {
+	let spinner = dom.create('spinner show');
+
+	button.loading = () => {
+		button.after(spinner);
+
+		if (button_remove) {
+			button.remove();
+		}
+	};
+
+	button.loading_end = () => {
+		if (!spinner) return;
+		spinner.remove();
+	};
+}
+
+export function group_items(items, items_per_group) {
+	const groups = [];
+	let group = [];
+
+	let i = 0;
+	let j = 0;
+	for (const item of items) {
+		i++;
+		j++;
+
+		group.push(item);
+
+		if (j === items_per_group || i === items.length) {
+			groups.push(group);
+			j = 0;
+			group = [];
+		}
+	}
+
+	return groups;
 }

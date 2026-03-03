@@ -1,5 +1,6 @@
 {
     "modules_manager": "src/modules/modules.js",
+    "categories_populate": "dev/modules/categories_populate/categories_populate.js",
     "elementor_widgets_manager": "src/elementor_widgets/elementor_widgets.js",
     "elementor_widget_sample": "dev/elementor_widgets/sample/sample.js",
     "elementor_widget_images_accordion": "dev/elementor_widgets/images_accordion/init.js",
