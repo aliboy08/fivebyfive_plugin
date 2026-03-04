@@ -189,7 +189,7 @@ class Images_Accordion extends FF_Widget_Base {
 
         echo '</div>';
         
-        ff_elementor_load_asset_dist('images_accordion');
+        ff_plugin_load_asset('elementor_widget_images_accordion');
         // ff_elementor_load_asset('images_accordion');
 	}
 

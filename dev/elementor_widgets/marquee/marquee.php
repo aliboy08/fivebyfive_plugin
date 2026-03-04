@@ -108,7 +108,7 @@ class Marquee extends FF_Widget_Base {
             echo '</div>';
 		echo '</div>';
 
-        ff_elementor_load_asset_dist('marquee');
+        ff_plugin_load_asset('elementor_widget_marquee');
         // ff_elementor_load_asset('marquee');
 	}
 

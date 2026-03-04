@@ -70,7 +70,7 @@ class Before_After_Slider extends FF_Widget_Base {
             echo '<div class="handle"><i class="handle_icon"></i></div>';
         echo '</div>';
         
-        ff_elementor_load_asset_dist('before_after_slider');
+        ff_plugin_load_asset('elementor_widget_before_after_slider');
         // ff_elementor_load_asset('before_after_slider');
 	}
 

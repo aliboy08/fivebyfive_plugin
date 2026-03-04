@@ -9,9 +9,7 @@ if "%1%" == "" (
     exit
 )
 
-set "sub_dir=modules"
-
-set "base_path=%CD%\dev\%sub_dir%"
+set "base_path=%CD%\dev\modules"
 
 set "source_path=%base_path%\%slug%"
 
@@ -41,12 +39,12 @@ set "zip_file=%base_path%\%slug%.zip"
 
 "C:\Program Files\7-Zip\7z.exe" a -tzip "%zip_file%" "%source_path%"
 
-call upload_zip.bat "%zip_file%" %sub_dir%
+call upload_zip.bat "%zip_file%" modules
 
 for /f %%i in ('powershell -NoProfile -Command "Get-Date -Format yyyyMMdd_HHmmss"') do set "timestamp=%%i"
 
 set "api_key=N8nFybEdxaeCKDxJTtkY3RSnuiSR3s4a1as"
-set "update_url=https://devlibrary2021.wpengine.com/fivebyfive/%sub_dir%/update.php?slug=%slug%^&version=%version%^&api_key=%api_key%^&t=%timestamp%"
+set "update_url=https://devlibrary2021.wpengine.com/fivebyfive/modules/update.php?slug=%slug%^&version=%version%^&api_key=%api_key%^&t=%timestamp%"
 echo updating version...
 curl "%update_url%"
 
