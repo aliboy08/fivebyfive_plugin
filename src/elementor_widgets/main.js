@@ -16,7 +16,8 @@ function init() {
 
 	manager.load_items({
 		refresh: false,
-		callback: () => {
+		callback: (items) => {
+			console.log(items);
 			manager.init_refresh();
 		},
 	});
@@ -27,6 +28,7 @@ function init_item(item) {
 	dom.create('name', item.el, item.data.name);
 
 	init_version(item);
+	init_lock(item);
 
 	item.hooks.on('update', () => {
 		item.el.dataset.installed = item.data.installed;
@@ -44,4 +46,37 @@ function init_version(item) {
 	} else {
 		dom.create('num', con, item.data.version);
 	}
+}
+
+function init_lock(item) {
+	const btn = dom.create('lock', item.el);
+
+	const update_other_buttons = () => {
+		if (!item.data.locked) return;
+
+		if (item.uninstall_btn) {
+			item.uninstall_btn.style.display = 'none';
+		}
+
+		if (item.update_btn) {
+			item.update_btn.style.display = 'none';
+		}
+	};
+
+	const update = () => {
+		btn.style.display = item.data.installed ? '' : 'none';
+		btn.dataset.state = item.data.locked ? 1 : 0;
+		setTimeout(update_other_buttons, 100);
+	};
+
+	btn.onclick = () => {
+		item.data.locked = !(item.data.locked ?? false);
+
+		item.do_action({
+			type: 'update_item',
+			item: item.data,
+		});
+	};
+
+	item.hooks.on('update', update);
 }

@@ -62,6 +62,12 @@ class FF_Plugin_Base_API {
         return $repo_data;
     }
 
+    function update_item($payload){
+        return [
+            'success' => $this->item_update($payload['item'])
+        ];
+    }
+
     function get_site_items(){
         $items = get_option($this->data_key);
         if( !$items ) $items = [];
@@ -117,7 +123,7 @@ class FF_Plugin_Base_API {
             }
         }
         
-        update_option($this->data_key, $items);
+        return update_option($this->data_key, $items);
     }
 
     function download($file_url) {

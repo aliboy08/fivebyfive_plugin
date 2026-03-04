@@ -21,12 +21,14 @@ class FF_Plugin_Elementor_Widgets_API extends FF_Plugin_Base_API {
 
             $item['active'] = false;
             $item['installed'] = false;
+            $item['locked'] = false;
 
             if( $site_items ) {
                 foreach( $site_items as $site_item ) {
                     if( $item['slug'] === $site_item['slug'] ) {
                         $item['installed'] = true;
                         $item['active'] = $site_item['active'];
+                        $item['locked'] = $site_item['locked'];
                         break;
                     }
                 }
@@ -70,7 +72,7 @@ class FF_Plugin_Elementor_Widgets_API extends FF_Plugin_Base_API {
         $this->update_dir();
         
         $this->item_remove($item);
-        
+
         $this->remove_directory($this->dir.$item['slug']);
         
         return [

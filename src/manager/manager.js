@@ -74,6 +74,8 @@ export class Plugin_Manager {
 		item.update();
 
 		this.items.push(item);
+
+		item.hooks.do('after_init');
 	}
 
 	init_item_actions(item) {
@@ -95,7 +97,7 @@ export class Plugin_Manager {
 						args.callback(res);
 					}
 
-					if (res.error) {
+					if (res?.error) {
 						alert(res.error);
 					} else if (args.on_ok) {
 						args.on_ok(res);
@@ -113,6 +115,7 @@ export class Plugin_Manager {
 		};
 
 		item.actions_con = dom.create('actions', item.el);
+
 		init_activate(item, this);
 		init_deactivate(item, this);
 		init_install(item, this);
@@ -146,6 +149,7 @@ function init_uninstall(item, main) {
 	if (!main.args.actions.includes('uninstall')) return;
 
 	const btn = dom.create('btn uninstall', item.actions_con, 'Uninstall');
+	item.uninstall_btn = btn;
 
 	item.hooks.on('update', () => {
 		btn.style.display = item.data.installed && !item.data.active ? '' : 'none';
@@ -211,6 +215,7 @@ function init_update(item, main) {
 	// if (!main.args.actions.includes('update')) return;
 
 	const btn = dom.create('btn update', item.actions_con, 'Update');
+	item.update_btn = btn;
 
 	item.hooks.on('update', () => {
 		btn.style.display = item.data.outdated ? '' : 'none';

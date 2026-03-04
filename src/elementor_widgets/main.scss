@@ -1,1 +1,23 @@
+@use 'css/mixins' as *;
 @use 'src/manager/manager.scss';
+
+.item_widget {
+	.lock {
+		cursor: pointer;
+		position: absolute;
+		top: 5px;
+		right: 5px;
+
+		&::before {
+			@include icon('\e98f', 13px);
+			opacity: 0.2;
+		}
+
+		&[data-state='1'] {
+			&::before {
+				opacity: 1;
+				color: #2ba31f;
+			}
+		}
+	}
+}
