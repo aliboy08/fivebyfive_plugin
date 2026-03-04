@@ -59,40 +59,15 @@
 			border-radius: 3px;
 			border: 1px solid #ebebeb;
 			transition: border-color 0.1s ease;
-			@include center;
+			// @include center;
 
 			&:hover {
 				border-color: #b8b8b8;
 			}
 
-			&.deactivate::before {
-				@include icon('\e917', 12px);
-			}
-
-			&.activate::before {
-				@include icon('\e910', 14px);
-			}
-
-			&.uninstall::before {
-				@include icon('\e929', 14px);
-			}
-
-			&.install::before {
-				@include icon('\e92e', 14px);
-			}
-
-			&.update::before {
-				@include icon('\e914', 14px);
-			}
-
 			&.loading {
-				pointer-events: none;
 				opacity: 0.5;
-				&::before {
-					content: '\e903';
-					font-size: 12px;
-					animation: spin 1s linear infinite;
-				}
+				cursor: progress;
 			}
 		}
 	}

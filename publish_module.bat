@@ -5,20 +5,16 @@ set slug=%1
 set version=%2
 
 if "%1%" == "" (
-    echo specify module name
+    echo specify module slug
     pause
     exit
 )
 
-if "%2%" == "" (
-    echo specify version
-    pause
-    exit
-)
+set sub_dir=modules
 
-set "modules_path=%CD%\dev\modules"
+set "base_path=%CD%\dev\%sub_dir%"
 
-set "source_path=%modules_path%\%slug%"
+set "source_path=%base_path%\%slug%"
 
 if not exist "%source_path%\" (
     echo directory not found:
@@ -27,36 +23,36 @@ if not exist "%source_path%\" (
     exit
 )
 
-set "zip_file=%slug%.zip"
-set "zip_file_path=%modules_path%\%zip_file%"
+set "json_file=%source_path%\config.json"
 
-set "install_name=devlibrary2021"
-set "remote_path=/sites/%install_name%/fivebyfive/modules/"
-set "ssh_host=%install_name%@%install_name%.ssh.wpengine.net"
+REM Read JSON using PowerShell and assign to batch variables
+for /f "usebackq delims=" %%A in (`powershell -NoProfile -Command ^
+    "(Get-Content '%json_file%' | ConvertFrom-Json).version"`) do set "version=%%A"
 
-set "exclude=node_modules;dev;.git;v4wp;zip.ps1;publish.bat;.gitignore;jsconfig.json;package.json;package-lock.json;wp-manifest.cjs;vite.config.js;%zip_file%"
+for /f "usebackq delims=" %%A in (`powershell -NoProfile -Command ^
+    "(Get-Content '%json_file%' | ConvertFrom-Json).with_asset"`) do set "with_asset=%%A"
 
-echo %slug% (%version%)
-echo.
+echo %slug% %version%
 
-echo Creating zip file...
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0zip.ps1" -source_path "%source_path%" -file_name "%slug%" -exclude "%exclude%"
+if "%with_asset%" == "True" (
+    call npm run build
+    call upload_dist.bat
+)
 
-echo.
-echo zip_file_path: %zip_file_path%
+set "zip_file=%base_path%\%slug%.zip"
 
-echo.
-echo Uploading to remote (%remote_path%)...
+powershell -Command "Compress-Archive -Path '%source_path%' -DestinationPath '%zip_file%' -Force"
 
-scp -O "%zip_file_path%" %ssh_host%:%remote_path%
+call upload_zip.bat "%zip_file%" "%sub_dir%"
 
 for /f %%i in ('powershell -NoProfile -Command "Get-Date -Format yyyyMMdd_HHmmss"') do set "timestamp=%%i"
 
 set "api_key=N8nFybEdxaeCKDxJTtkY3RSnuiSR3s4a1as"
-set "update_url=https://devlibrary2021.wpengine.com/fivebyfive/modules/update.php?slug=%slug%^&version=%version%^&api_key=%api_key%^&t=%timestamp%"
+set "update_url=https://devlibrary2021.wpengine.com/fivebyfive/%sub_dir%/update.php?slug=%slug%^&version=%version%^&api_key=%api_key%^&t=%timestamp%"
+
 echo update module version...
+
 curl "%update_url%"
 
-:end
 @REM pause
 endlocal

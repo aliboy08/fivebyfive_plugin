@@ -1,9 +1,4 @@
 <?php
-/**
- * Module Name: Data Feed
- * Version: 1.0.1
- */
-
 // /wp-json/ff/v1/data_feed/?post_type=post&showposts=10
 // /wp-json/ff/v1/data_feed/?post_type=post&showposts=10&data=link,post_meta,post_data
 // /wp-json/ff/v1/data_feed/?post_type=post&showposts=10&post_fields=post_title

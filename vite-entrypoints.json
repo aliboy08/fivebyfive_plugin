@@ -1,10 +1,10 @@
 {
-    "modules_manager": "src/modules/modules.js",
-    "categories_populate": "dev/modules/categories_populate/categories_populate.js",
-    "elementor_widgets_manager": "src/elementor_widgets/elementor_widgets.js",
-    "elementor_widget_sample": "dev/elementor_widgets/sample/sample.js",
+    "modules_manager": "src/modules/main.js",
+    "elementor_widgets_manager": "src/elementor_widgets/main.js",
+    "module_categories_populate": "dev/modules/categories_populate/main.js",
     "elementor_widget_images_accordion": "dev/elementor_widgets/images_accordion/init.js",
     "elementor_widget_before_after_slider": "dev/elementor_widgets/before_after_slider/init.js",
     "elementor_widget_marquee": "dev/elementor_widgets/marquee/init.js",
-    "admin_styles": "src/admin_styles/admin_styles.js"
+    "admin_styles": "src/admin_styles/admin_styles.js",
+    "admin": "src/admin/admin.js"
 }

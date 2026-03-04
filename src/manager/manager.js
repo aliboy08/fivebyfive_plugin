@@ -131,6 +131,7 @@ function init_install(item, main) {
 	});
 
 	btn.addEventListener('click', () => {
+		if (btn.classList.contains('loading')) return;
 		item.do_action({
 			type: 'install',
 			add_loading_class: btn,
@@ -151,6 +152,7 @@ function init_uninstall(item, main) {
 	});
 
 	btn.addEventListener('click', () => {
+		if (btn.classList.contains('loading')) return;
 		item.do_action({
 			type: 'uninstall',
 			add_loading_class: btn,
@@ -171,6 +173,7 @@ function init_activate(item, main) {
 	});
 
 	btn.addEventListener('click', () => {
+		if (btn.classList.contains('loading')) return;
 		item.do_action({
 			type: 'activate',
 			add_loading_class: btn,
@@ -192,6 +195,7 @@ function init_deactivate(item, main) {
 	});
 
 	btn.addEventListener('click', () => {
+		if (btn.classList.contains('loading')) return;
 		item.do_action({
 			type: 'deactivate',
 			add_loading_class: btn,
@@ -204,7 +208,7 @@ function init_deactivate(item, main) {
 }
 
 function init_update(item, main) {
-	if (!main.args.actions.includes('update')) return;
+	// if (!main.args.actions.includes('update')) return;
 
 	const btn = dom.create('btn update', item.actions_con, 'Update');
 
@@ -213,6 +217,7 @@ function init_update(item, main) {
 	});
 
 	btn.addEventListener('click', () => {
+		if (btn.classList.contains('loading')) return;
 		item.do_action({
 			type: 'update',
 			add_loading_class: btn,

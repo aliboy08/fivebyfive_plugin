@@ -5,7 +5,7 @@ class FF_Plugin_Modules_API extends FF_Plugin_Base_API {
 
     public $data_key = 'ff_plugin/modules';
     public $dir = FF_MODULES_DIR;
-    public $repo_endpoint = 'https://devlibrary2021.wpengine.com/fivebyfive/modules/modules.json';
+    public $repo_base = 'https://devlibrary2021.wpengine.com/fivebyfive/modules';
 
     function get_items($payload){
 
@@ -41,8 +41,10 @@ class FF_Plugin_Modules_API extends FF_Plugin_Base_API {
         $item = $payload['item'];
 
         $this->create_dirs();
+
+        $zip_url = $this->repo_base .'/'.$item['slug'].'.zip';
         
-        $download_success = $this->download($item['file_url']);
+        $download_success = $this->download($zip_url);
 
         if( !$download_success ) {
             return [
@@ -62,10 +64,8 @@ class FF_Plugin_Modules_API extends FF_Plugin_Base_API {
         $item = $payload['item'];
         
         $this->item_remove($item);
-
-        $dir_path = FF_MODULES_DIR.pathinfo($item['file_url'])['filename'];
-
-        $this->remove_directory($dir_path);
+        
+        $this->remove_directory(FF_MODULES_DIR.$item['slug']);
         
         return [
             'message' => 'module uninstalled',

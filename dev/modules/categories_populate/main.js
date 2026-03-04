@@ -1,7 +1,7 @@
 import { dom } from 'js/dom';
 import { ff_plugin_ajax, init_button_loading, group_items } from 'js/utils';
 import Hooks from 'js/hooks';
-import './categories_populate.scss';
+import './main.scss';
 
 const res_el = dom.get('#cp_result');
 
@@ -30,33 +30,57 @@ function prepare_data_result(items) {
 	dom.clear(res_el);
 
 	const valid_items = [];
+	const invalid_items = [];
+
+	const render_valid_items = () => {
+		if (!valid_items.length) return;
+
+		dom.create('h', res_el, `Posts to update (${valid_items.length})`);
+		const items_con = dom.create('items', res_el);
+
+		valid_items.forEach((item) => {
+			items_con.append(render_item(item));
+		});
+	};
+
+	const render_invalid_items = () => {
+		if (!invalid_items.length) return;
+
+		const con = dom.create('invalid_items', res_el);
+		dom.create('h', con, `Not found (${invalid_items.length})`);
+
+		const items_con = dom.create('items', con);
+		invalid_items.forEach((item) => {
+			items_con.append(render_item(item));
+		});
+	};
 
 	items.forEach((item) => {
-		render_item(item);
-
-		if (!item.id) {
-			dom.create('error', item.el, 'post not found');
-			item.el.dataset.state = 'error';
-		} else {
+		if (item.id) {
 			valid_items.push(item);
+		} else {
+			invalid_items.push(item);
 		}
 	});
 
-	if (valid_items.length) {
-		init_proceed(valid_items);
-	}
+	render_invalid_items();
+	render_valid_items();
+
+	init_proceed();
 }
 
 function render_item(item) {
-	const el = dom.create('item', res_el);
+	const el = dom.create('item');
 
 	dom.create('title', el, item.title);
 
-	if (item?.categories?.length) {
-		dom.create('categories', el, item.categories.join(', '));
-	}
+	// if (item?.categories?.length) {
+	// 	dom.create('categories', el, item.categories.join(', '));
+	// }
 
 	item.el = el;
+
+	return el;
 }
 
 function init_proceed(items) {
@@ -79,7 +103,9 @@ function init_proceed(items) {
 async function process_items(items) {
 	init_progress();
 
-	const groups = group_items(items, 5);
+	const items_per_batch = parseInt(dom.get('#cp_num_per_batch').value);
+
+	const groups = group_items(items, items_per_batch);
 
 	const taxonomy = dom.get('#cp_taxonomy').value;
 

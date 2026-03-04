@@ -1,14 +1,14 @@
 import { dom } from 'js/dom';
 import { Plugin_Manager } from 'src/manager/manager';
 
-import './modules.scss';
+import './main.scss';
 
 function init() {
 	const manager = new Plugin_Manager({
-		container: '#ff_modules_manager',
-		api: 'ff_plugin_modules_api',
-		item_class: 'item_module',
-		actions: ['install', 'uninstall', 'activate', 'deactivate', 'update'],
+		container: '#ff_elementor_widgets',
+		api: 'ff_plugin_elementor_widgets_api',
+		item_class: 'item_widget',
+		actions: ['install', 'uninstall', 'activate', 'deactivate'],
 		refresh_button: true,
 	});
 
@@ -25,6 +25,7 @@ init();
 
 function init_item(item) {
 	dom.create('name', item.el, item.data.name);
+
 	init_version(item);
 
 	item.hooks.on('update', () => {

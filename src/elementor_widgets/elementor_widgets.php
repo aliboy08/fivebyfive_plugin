@@ -1,4 +1,6 @@
 <?php
+// update off functionality
+
 add_filter('ff/sub_menus', function($sub_menus){
 
     $sub_menus[] = [

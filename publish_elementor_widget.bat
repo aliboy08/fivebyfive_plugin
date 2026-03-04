@@ -4,14 +4,16 @@ setlocal
 set slug=%1
 
 if "%1%" == "" (
-    echo specify widget
+    echo specify widget slug
     pause
     exit
 )
 
-set "widgets_path=%CD%\dev\elementor_widgets"
+set sub_dir=elementor_widgets
 
-set "source_path=%widgets_path%\%slug%"
+set "base_path=%CD%\dev\%sub_dir%"
+
+set "source_path=%base_path%\%slug%"
 
 if not exist "%source_path%\" (
     echo directory not found:
@@ -20,25 +22,15 @@ if not exist "%source_path%\" (
     exit
 )
 
-set "zip_file=%slug%.zip"
-set "zip_file_path=%widgets_path%\%zip_file%"
+call npm run build
 
-set "install_name=devlibrary2021"
-set "remote_path=/sites/%install_name%/fivebyfive/elementor_widgets/"
-set "ssh_host=%install_name%@%install_name%.ssh.wpengine.net"
+set "zip_file=%base_path%\%slug%.zip"
 
-set "exclude=node_modules;dev;.git;v4wp;zip.ps1;publish.bat;.gitignore;jsconfig.json;package.json;package-lock.json;wp-manifest.cjs;vite.config.js;%zip_file%"
+powershell -Command "Compress-Archive -Path '%source_path%' -DestinationPath '%zip_file%' -Force"
 
-echo Creating zip file...
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0zip.ps1" -source_path "%source_path%" -file_name "%slug%" -exclude "%exclude%"
+call upload_zip.bat "%zip_file%" "%sub_dir%"
 
-echo.
-echo zip_file_path: %zip_file_path%
-echo.
-echo Uploading to remote (%remote_path%)...
-
-scp -O "%zip_file_path%" %ssh_host%:%remote_path%
+call upload_dist.bat
 
 :end
-@REM pause
 endlocal

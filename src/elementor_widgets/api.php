@@ -5,7 +5,7 @@ class FF_Plugin_Elementor_Widgets_API extends FF_Plugin_Base_API {
 
     public $data_key = 'ff_plugin/elementor_widgets';
     public $dir = '';
-    public $repo_endpoint = 'https://devlibrary2021.wpengine.com/fivebyfive/elementor_widgets/data.json';
+    public $repo_base = 'https://devlibrary2021.wpengine.com/fivebyfive/elementor_widgets';
 
     function get_items($payload){
         
@@ -45,8 +45,10 @@ class FF_Plugin_Elementor_Widgets_API extends FF_Plugin_Base_API {
         $this->update_dir();
         
         $this->create_dirs();
+
+        $zip_url = $this->repo_base .'/'.$item['slug'].'.zip';
         
-        $download_success = $this->download($item['file_url']);
+        $download_success = $this->download($zip_url);
 
         if( !$download_success ) {
             return [
@@ -57,7 +59,6 @@ class FF_Plugin_Elementor_Widgets_API extends FF_Plugin_Base_API {
         $this->item_add($item);
         
         return [
-            'dir' => $this->dir,
             'message' => 'widget installed',
         ];
     }
@@ -69,10 +70,8 @@ class FF_Plugin_Elementor_Widgets_API extends FF_Plugin_Base_API {
         $this->update_dir();
         
         $this->item_remove($item);
-
-        $dir_path = $this->dir.pathinfo($item['file_url'])['filename'];
-
-        $this->remove_directory($dir_path);
+        
+        $this->remove_directory($this->dir.$item['slug']);
         
         return [
             'message' => 'widget uninstalled',

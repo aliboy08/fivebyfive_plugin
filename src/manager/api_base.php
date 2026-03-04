@@ -3,7 +3,7 @@ class FF_Plugin_Base_API {
 
     public $data_key = '';
     public $dir = '';
-    public $repo_endpoint = '';
+    public $repo_base = '';
 
     function get_items($payload){
         
@@ -47,7 +47,7 @@ class FF_Plugin_Base_API {
             if( $cache ) return $cache;
         }
         
-        $request = wp_remote_get( $this->repo_endpoint.'?t='.time(), [
+        $request = wp_remote_get( $this->repo_base.'/data.json?t='.time(), [
             'timeout' => 10,
             'headers' => [
                 'Accept' => 'application/json',

@@ -1,8 +1,8 @@
 <?php
 namespace FF\Plugin\Vite;
 
-define('FF_PLUGIN_VITE_DIST_DIR', __DIR__ .'/dist');
-define('FF_PLUGIN_VITE_DIST_URL', plugins_url() .'/fivebyfive/dist');
+define('FF_PLUGIN_VITE_DIST_DIR', FF_PLUGIN_DIR.'/dist');
+define('FF_PLUGIN_VITE_DIST_URL', FF_PLUGIN_URL.'/dist');
 define('FF_PLUGIN_VITE_MODE', get_mode());
 define('FF_PLUGIN_VITE_MANIFEST', get_manifest());
 define('FF_PLUGIN_VITE_DEV_SERVER', get_dev_server_origin());
@@ -64,7 +64,7 @@ function get_manifest(){
     $path = FF_PLUGIN_VITE_DIST_DIR."/wp-manifest.json";
 
     if( FF_PLUGIN_VITE_MODE === 'dev' ) {
-        $path = __DIR__."/vite-entrypoints.json";
+        $path = FF_PLUGIN_DIR."/vite-entrypoints.json";
     }
 
     return wp_json_file_decode($path);

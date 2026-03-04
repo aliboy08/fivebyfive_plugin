@@ -8,7 +8,7 @@ add_filter('ff/sub_menus', function($sub_menus){
         'render' => function(){
             ff_plugin_admin_scripts();
             admin_page();
-            ff_plugin_load_asset('categories_populate');
+            ff_plugin_load_asset('module_categories_populate');
         }
     ];
     return $sub_menus;
@@ -43,6 +43,13 @@ function admin_page(){
             }
             ?>
         </select>
+    </div>
+
+    <br/>
+
+    <div><b>Items per batch</b>&nbsp;&nbsp;
+        <input type="number" id="cp_num_per_batch" value=5>&nbsp;
+        <span>Reduce if process is timing out</span>
     </div>
 
     <h4>Enter Data</h4>
