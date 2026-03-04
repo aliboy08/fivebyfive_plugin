@@ -8,3 +8,4 @@ dist_temp.zip
 **.log
 fivebyfive.zip
 dev/modules/*.zip
+dev/elementor_widgets/*.zip

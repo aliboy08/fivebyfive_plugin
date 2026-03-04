@@ -2,12 +2,19 @@
 
 call npm run build
 
-set zip_file=fivebyfive.zip
+set folder=fivebyfive
+set zip_file=%folder%.zip
 
-powershell -Command "Compress-Archive -Path 'fivebyfive.php','src','dist' -DestinationPath '%zip_file%' -Force"
+if exist %folder% rmdir /s /q %folder%
+mkdir %folder%
 
-call upload_zip.bat "%zip_file%"
+xcopy fivebyfive.php %folder%\
+xcopy src %folder%\src /E /I
+xcopy dist %folder%\dist /E /I
 
+"C:\Program Files\7-Zip\7z.exe" a -tzip "%CD%\%folder%.zip" "%CD%\%folder%"
+
+rmdir /s /q %folder%
+
+call upload_zip.bat "%folder%.zip"
 call update_dist_version.bat
-
-@REM pause
