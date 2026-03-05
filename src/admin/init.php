@@ -8,7 +8,11 @@ add_action( 'admin_menu', function(){
         ff_plugin_load_asset('admin');
         ?>
         <div id="ff_plugin_admin_page">
+
             <svg width="80" height="80" viewBox="0 0 280 280"><path class="cls-1" d="M88.91,54.61l-8.1,49.24c-.24,1.44.87,2.74,2.33,2.74h80.57c25.6,0,46.35-20.75,46.35-46.35v-5.25c0-1.3-1.06-2.36-2.36-2.36h-116.45c-1.16,0-2.14.84-2.33,1.98Z"></path><path class="cls-1" d="M78.01,120.85l-8.03,48.82c-.23,1.42.85,2.69,2.28,2.74,35.14,1.17,65.14,22.91,78.36,53.53.37.87,1.22,1.43,2.16,1.43h51.98c1.54,0,2.69-1.46,2.29-2.95-15.23-57.46-65.55-100.77-126.53-105.55-1.22-.1-2.32.77-2.51,1.98Z"></path></svg>
+
+            <br/><br/><br/>
+            
         </div>
         <?php
     }, $icon, 100 );
@@ -32,4 +36,14 @@ function ff_plugin_init_sub_menus(){
             }
         });
     }
+}
+
+add_action('wp_ajax_ff_plugin_admin_api', 'ff_plugin_admin_api');
+function ff_plugin_admin_api(){
+    $payload = json_decode(file_get_contents('php://input'), true);
+    if ( ! wp_verify_nonce( $payload['nonce'], 'ff_plugin' ) ) die();
+    include_once 'api.php';
+    $api = new FF_Plugin_Admin_API();
+    $action = $payload['action'];
+    wp_send_json($api->$action($payload));
 }

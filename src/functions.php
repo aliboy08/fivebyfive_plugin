@@ -15,6 +15,7 @@ function ff_plugin_js_data($var_name, $data){
 
 $ff_plugin_assets = [];
 function ff_plugin_load_asset($key){
+    global $ff_plugin_assets;
     if( in_array($key, $ff_plugin_assets) ) return;
     $ff_plugin_assets[] = $key;
     FF\Plugin\Vite\load_asset($key);
