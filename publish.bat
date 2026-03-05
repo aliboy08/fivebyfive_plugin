@@ -9,6 +9,7 @@ if exist %folder% rmdir /s /q %folder%
 mkdir %folder%
 
 xcopy fivebyfive.php %folder%\
+xcopy data.json %folder%\
 xcopy src %folder%\src /E /I
 xcopy dist %folder%\dist /E /I
 
