@@ -1,20 +1,20 @@
 <?php
 class FF_Plugin_Admin_API {
 
-    public $data_key = 'ff_plugin/admin';
-
     function check_updates(){
        
         $request = wp_remote_get('https://devlibrary2021.wpengine.com/fivebyfive/data.json?t='.time());
 
         $repo_data = json_decode($request['body'], true);
-        
+
+        $site_data = file_get_contents(FF_PLUGIN_DIR.'/data.json');
+
         return [
             'repo_data' => json_decode($request['body'], true),
-            'site_data' => get_option('ff_plugin/admin'),
+            'site_data' => json_decode($site_data, true),
         ];
     }
-
+    
     function update_dist($payload){
         
         $temp_dir = FF_PLUGIN_DIR.'/temp';
@@ -22,12 +22,22 @@ class FF_Plugin_Admin_API {
             mkdir($temp_dir, 0755, true);
         }
         
-        $res = $this->download_dist();
+        $success = $this->download_dist();
+        if( $success ) {
+            $this->update_dist_data($payload['repo_data']['dist_version']);
+        }
         
         return [
             'update_dist' => $payload,
-            'res' => $res,
+            'success' => $success,
         ];
+    }
+
+    function update_dist_data($version){
+        $file_path = FF_PLUGIN_DIR.'/data.json';
+        $data = json_decode(file_get_contents($file_path), true);
+        $data['dist_version'] = $version;
+        file_put_contents($file_path, json_encode($data));
     }
 
     function download_dist() {
@@ -35,7 +45,7 @@ class FF_Plugin_Admin_API {
         $file_url = 'https://devlibrary2021.wpengine.com/fivebyfive/dist.zip';
 
         $temp_path = FF_PLUGIN_DIR.'/temp';
-        $extract_path = FF_PLUGIN_DIR . '/dist';
+        $extract_path = FF_PLUGIN_DIR;
         
         $file_path = $temp_path.'/'.pathinfo($file_url)['basename'];
         
@@ -43,7 +53,7 @@ class FF_Plugin_Admin_API {
         
         if( !$success ) return false;
 
-        $this->remove_directory($extract_path);
+        $this->remove_directory($extract_path.'/dist');
         
         WP_Filesystem();
         $extract_res = unzip_file($file_path, $extract_path);
@@ -62,7 +72,7 @@ class FF_Plugin_Admin_API {
         // delete zip file after extract
         unlink($file_path);
         
-        return $success;
+        return true;
     }
 
     function remove_directory($src) {

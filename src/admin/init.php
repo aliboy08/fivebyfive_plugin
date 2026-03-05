@@ -15,6 +15,13 @@ add_action( 'admin_menu', function(){
             
         </div>
         <?php
+
+        $version = 1;
+        $file_path = FF_PLUGIN_DIR.'/data.json';
+        $data = json_decode(file_get_contents($file_path), true);
+        $data['dist_version'] = $version;
+        file_put_contents($file_path, json_encode($data));
+
     }, $icon, 100 );
 
     ff_plugin_init_sub_menus();

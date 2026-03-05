@@ -1,6 +1,5 @@
 import { dom } from 'js/dom';
 import { ff_plugin_ajax, init_button_loading } from 'js/utils';
-console.log('admin.js');
 
 const container = dom.get('#ff_plugin_admin_page');
 init_check_updates();
@@ -31,7 +30,7 @@ function init_check_updates() {
 }
 
 function init_dist_update(res) {
-	if (res?.repo_data?.dist_version === res?.site_data?.dist_version) return;
+	if (res?.repo_data?.dist_version == res?.site_data?.dist_version) return;
 
 	const btn = dom.create('button-primary', container, 'Update Dist', 'button');
 
@@ -43,9 +42,8 @@ function init_dist_update(res) {
 
 		ff_plugin_ajax(
 			'ff_plugin_admin_api',
-			{ action: 'update_dist', ver: res.repo_data.dist_version },
+			{ action: 'update_dist', repo_data: res.repo_data },
 			(res) => {
-				console.log(res);
 				btn.loading_end();
 			},
 		);
